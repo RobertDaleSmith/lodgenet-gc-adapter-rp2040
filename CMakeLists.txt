@@ -1,10 +1,15 @@
 cmake_minimum_required(VERSION 3.13)
 
+
 # Set the C standard
 set(CMAKE_C_STANDARD 11)
 set(CMAKE_CXX_STANDARD 17)
 
-include($ENV{PICO_SDK_PATH}/pico_sdk_init.cmake)
+if(DEFINED ENV{PICO_SDK_PATH})
+  include($ENV{PICO_SDK_PATH}/pico_sdk_init.cmake)
+else()
+  include(${CMAKE_CURRENT_LIST_DIR}/libs/pico-sdk/pico_sdk_init.cmake)
+endif()
 
 project(lodgenet_gc_adapter_rp2040 C CXX ASM)
 
@@ -54,6 +59,7 @@ add_executable(${PROJECT_NAME}
 #file(MAKE_DIRECTORY ${CMAKE_CURRENT_LIST_DIR}/include/generated)
 #pico_generate_pio_header(${PROJECT_NAME} ${CMAKE_CURRENT_LIST_DIR}/pio/ws2812.pio OUTPUT_DIR ${CMAKE_CURRENT_LIST_DIR}/include/generated)
 #pico_generate_pio_header(${PROJECT_NAME} ${CMAKE_CURRENT_LIST_DIR}/pio/joybus.pio OUTPUT_DIR ${CMAKE_CURRENT_LIST_DIR}/include/generated)
+# PIO header pre-generated: pioasm pio/lodgenet.pio include/generated/lodgenet.pio.h
 
 target_compile_definitions(${PROJECT_NAME}
 	PRIVATE
